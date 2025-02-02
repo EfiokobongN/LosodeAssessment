@@ -49,5 +49,29 @@ class JobListingController extends Controller
         }
         return $response;
     }
+
+    //getting Search Jobs
+    public function searchJobs(Request $request)
+    {
+        $keyword = $request->query('q');
+        $jobs = Job::where('title', 'LIKE', '%'.$keyword.'%')->orWhere('description', 'LIKE', '%'.$keyword.'%')->orWhere('location', 'LIKE', '%'.$keyword.'%')->get();
+        if ($jobs === null){
+            $response = response()->json(['success'=>false,'error' => 'No job listings found for this search'], 404);
+        }else{
+            $response = response()->json(['success'=>true,'message'=>'Search results', 'listing'=>$jobs]);
+        }
+        return $response;
+    }
+
+    // get my details
+    public function getprofile()
+    {
+        $user = Util::Auth();
+        if ($user === null) {
+            $response = response()->json(['success'=>false,'error' => 'User unauthenticated'], 401);
+        }
+        $response = response()->json(['success'=>true,'message'=>'Myprofile', 'user'=>$user]);
+        return $response;
+    }
     
 }

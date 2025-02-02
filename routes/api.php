@@ -21,6 +21,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/my/jobs/{id}/apply', [PostJobController::class, 'applyForJob']);
 Route::get('/jobs', [JobListingController::class, 'index']);
 Route::get('/jobs/{id}', [JobListingController::class, 'getJobById']);
+Route::get('/my/jobs', [JobListingController::class, 'searchJobs']);
 Route::middleware('auth:sanctum')->group(function (){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/my/jobs', [PostJobController::class, 'storeJob']);
