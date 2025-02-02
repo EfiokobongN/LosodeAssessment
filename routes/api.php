@@ -20,9 +20,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/my/jobs/{id}/apply', [PostJobController::class, 'applyForJob']);
 Route::get('/jobs', [JobListingController::class, 'index']);
+Route::get('/jobs/{id}', [JobListingController::class, 'getJobById']);
 Route::middleware('auth:sanctum')->group(function (){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/my/jobs', [PostJobController::class, 'storeJob']);
     Route::post('/my/jobs/{id}', [PostJobController::class, 'editJob']);
     Route::delete('/my/jobs/{id}', [PostJobController::class, 'deleteJob']);
+    Route::get('/my/jobs', [JobListingController::class, 'getUserJobs']);
+    Route::get('/user', [JobListingController::class, 'getprofile']);
+   
 });
