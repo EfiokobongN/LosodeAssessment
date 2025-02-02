@@ -23,6 +23,12 @@ class ApplyJobRequest extends FormRequest
     {
         return [
             //
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'email' => 'required|email',
+            'location' => 'required',
+            'phone_number' => 'required|string',
+            'cv' => 'required|file|mimes:pdf,docx,txt|max:2048',
         ];
     }
 }
