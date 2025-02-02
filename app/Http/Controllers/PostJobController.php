@@ -80,4 +80,26 @@ class PostJobController extends Controller
         }
         return $response;
     }
+
+    //Delete Job Function Method
+    public function deleteJob($id)
+    {
+        $user = Util::Auth();
+        $job = Job::find($id);
+        if (!$job || $job->user_id!= $user->id) {
+            return response()->json(['success'=>false, 'error' => 'Job not found or not belong to you'], 404);
+        }
+        // Perform database operations to delete the job
+        DB::beginTransaction();
+
+        try {
+            $job->delete();
+            DB::commit();
+            $response = response()->json(['success'=>true, 'message' => 'Job deleted successfully'], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $response = response()->json(['success'=>false, 'error' => $th->getMessage()], 500);
+        }
+        return $response;
+    }
 }
