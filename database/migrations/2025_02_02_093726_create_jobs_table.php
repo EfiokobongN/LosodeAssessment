@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('minim_qualification');
             $table->string('experience_level');
             $table->string('experience_length');
+            $table->longText('job_requirements');
             $table->string('candidates')->default(0);
             $table->timestamps();
         });
