@@ -53,8 +53,8 @@ class JobListingController extends Controller
     //getting Search Jobs
     public function searchJobs(Request $request)
     {
-        $keyword = $request->query('q');
-        $jobs = Job::where('job_title', 'LIKE', '%'.$keyword.'%')->orWhere('location', 'LIKE', '%'.$keyword.'%') ->orWhere('employment_type', 'LIKE', '%'.$keyword.'%')->orWhere('experience_level', 'LIKE', '%'.$keyword.'%')->orWhere('experience_length', 'LIKE', '%'.$keyword.'%')->orWhere('category', 'LIKE', '%'.$keyword.'%')->get();
+
+        $jobs = Job::Search($request);
         if ($jobs === null){
             $response = response()->json(['message' => 'No job listings found for this search'], 404);
         }else{
@@ -72,6 +72,15 @@ class JobListingController extends Controller
         }
         $response = response()->json(['success'=>true,'message'=>'Myprofile', 'user'=>$user]);
         return $response;
+    }
+
+    public function JobsSearch(Request $request) {
+        $jobs = Job::Search($request);
+        return response()->json([
+            "success" => ($jobs == null) ? false : true,
+            "message" => ($jobs == null) ? "No Order Found" : "Search results",
+            "result" => $jobs
+        ]);
     }
     
 }
