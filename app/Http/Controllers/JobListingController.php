@@ -82,5 +82,19 @@ class JobListingController extends Controller
             "result" => $jobs
         ]);
     }
+
+
+    public function myJob($id)
+    {
+        $user = Util::Auth();
+        $job = Job::jobId($id);
+        if ($job->user_id != $user->id) {
+            return response()->json(['success' => false, 'error' => 'Job not belong to you'], 404);
+        }else{
+            $response = response()->json(['success' => true, 'Detail' => $job], 200);
+        }
+
+        return $response;
+    }
     
 }
