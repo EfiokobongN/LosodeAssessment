@@ -33,6 +33,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public static function avatar(){
+        return asset('image/avatar.png');
+    }
+
     /**
      * The attributes that should be cast.
      *

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use App\Utility\Util;
 use Carbon\Carbon;
@@ -9,31 +10,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     //
-    public function register(Request $request)
+    public function register(RegistrationRequest $request)
     {
-        // Validate the request data
-        $validator = Validator::make($request->all(),[
-            'name' =>'required|string|max:255',
-            'email' =>'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-
         DB::beginTransaction();
         try {
             //Create A business User Account
+
             $businessUser = new User();
             $businessUser->name = $request->name;
             $businessUser->email = $request->email;
             $businessUser->password =  Hash::make($request->password);
+            $businessUser->avatar = User::avatar();
             $businessUser->save();
 
             DB::commit();

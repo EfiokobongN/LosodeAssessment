@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApplyJobRequest extends FormRequest
+class RegistrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,10 @@ class ApplyJobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-            'firstName' => 'required|string|min:3',
-            'lastName' => 'required|string|min:3',
-            'email' => 'required|email|string',
-            'location' => 'required|string',
-            'phone_number' => 'required|string|min:6|max:11',
-            'cv' => 'required|file|mimes:pdf,docx,txt|max:2048',
+            'name' =>'required|string|min:3',
+            'email' =>'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'avatar' =>'nullable|string',
         ];
     }
 }
