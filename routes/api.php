@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::prefix('v1')->group(function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/my/jobs/{id}/apply', [PostJobController::class, 'applyForJob']);
@@ -30,4 +31,5 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::get('/my/jobs', [JobListingController::class, 'getUserJobs']);
     Route::get('/user', [JobListingController::class, 'getprofile']);
    
+});
 });

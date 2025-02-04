@@ -54,25 +54,13 @@ class JobListingController extends Controller
     public function searchJobs(Request $request)
     {
         $keyword = $request->query('q');
-        $jobs = Job::where('title', 'LIKE', '%'.$keyword.'%')->orWhere('description', 'LIKE', '%'.$keyword.'%')->orWhere('location', 'LIKE', '%'.$keyword.'%')->get();
+        $jobs = Job::where('job_title', 'LIKE', '%'.$keyword.'%')->orWhere('location', 'LIKE', '%'.$keyword.'%') ->orWhere('employment_type', 'LIKE', '%'.$keyword.'%')->orWhere('experience_level', 'LIKE', '%'.$keyword.'%')->orWhere('experience_length', 'LIKE', '%'.$keyword.'%')->orWhere('category', 'LIKE', '%'.$keyword.'%')->get();
         if ($jobs === null){
             $response = response()->json(['message' => 'No job listings found for this search'], 404);
         }else{
             $response = response()->json(['success'=>true,'message'=>'Search results', 'listing'=>$jobs]);
         }
         return $response;
-    }
-
-    public function search($keyword)
-    {
-        return $this->where(function ($q) use ($keyword) {
-            return $q->where('job_title', 'LIKE', "%$keyword%")
-                ->orWhere('location', 'LIKE', "%$keyword%")
-                ->orWhere('employment_type', 'LIKE', "%$keyword%")
-                ->orWhere('experience_level', 'LIKE', "%$keyword%")
-                ->orWhere('experience_length', 'LIKE', "%$keyword%")
-                ->orWhere('category', 'LIKE', "%$keyword%");
-        });
     }
 
     // get my details
